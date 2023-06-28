@@ -18,12 +18,6 @@ struct grafo {
     Viz** viz; /* viz[i] aponta para a lista de arestas incidindo em i */
 };
 
-struct pilha{
-    int topo; /* topo da pilha */
-    char elementos[7]; /* elementos da pilha */
-};
-
-
 int main(void) {
 
     /*Cria um grafo de 7 vértices e 13 arestas */
@@ -32,24 +26,17 @@ int main(void) {
     /*Guarda o número de vértices do grafo*/
     int numVertices = g->nv;
 
-    /*Array com as letras que estarão contidas em cada vértice */
-    char letras[7] = { 'A', 'B', 'C', 'D', 'E', 'F', 'H' };
-
-    /*Cria uma pilha para ser usada no dfs*/
-    Pilha pilha;
-    /*Inicializa o topo da pilha com -1*/
-    pilha.topo = -1;
+   /*Array com as letras que estarão contidas em cada vértice e char do caracter do vertice de origem */
+    char letras[7] = { 'A', 'B', 'C', 'D', 'E', 'F', 'H' },origem = 'A';
 
     /*OBS : Decidimos colocar A como nó 0 pois ele será a origem 
     para fazer o algoritmo de Dijkstra e o dfs*/
-
     
     /* Criando vizinhos de A*/
     g->viz[0] = criaViz(g->viz[0], letras[3], 2.0);
     g->viz[0] = criaViz(g->viz[0], letras[2], 4.0);
     g->viz[0] = criaViz(g->viz[0], letras[1], 5.0);
     
-
     /* Criando vizinhos de B*/
     g->viz[1] = criaViz(g->viz[1], letras[6], 9.0);
     g->viz[1] = criaViz(g->viz[1], letras[4], 6.0);
@@ -69,7 +56,6 @@ int main(void) {
     g->viz[3] = criaViz(g->viz[3], letras[0], 2.0);
    
     /* Criando vizinhos de E */
-
     g->viz[4] = criaViz(g->viz[4], letras[6], 6.0);
     g->viz[4] = criaViz(g->viz[4], letras[5], 2.0);
     g->viz[4] = criaViz(g->viz[4], letras[3], 5.0);
@@ -90,9 +76,13 @@ int main(void) {
    
     imprimeGrafo(g);
 
-    /*Faz a busca por profundidade no grafo usando percurso por profundidade*/
+   /*Faz a busca por profundidade no grafo usando percurso por profundidade*/
 
-    dfs(g, letras[0], pilha);
+    printf("Busca em profundidade a partir do vertice %c:\n",origem);
+
+    dfs(g, origem);
+
+    printf("\n");
 
     return 0;
 }
