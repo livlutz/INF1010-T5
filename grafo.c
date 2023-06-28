@@ -140,4 +140,25 @@ void dfs(Grafo* g, char v) {
 
 }
 
+void dijkstra(Grafo* g, char v) {
+
+    /*Array de distancias da origem aos outros vertices*/
+    int distancias[7] ,j = 0,minInd;
+
+    /*Inicializando o array com distancias infinitas*/
+    for (int i = 0; i < 7; i++) {
+        distancias[i] = INT_MAX;
+    }
+    /*Pega o indice de v (origem)*/
+    int i = retornaIndice(v);
+
+    /*Distancia da origem para a origem e 0*/
+    distancias[i] = 0;
+
+    Viz* no = g->viz[i];
+
+    /*TERMINAR DE IMPLEMENTAR*/
+    
+}
+
 
