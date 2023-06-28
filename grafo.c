@@ -24,6 +24,12 @@ struct grafo {
     Viz** viz; /* viz[i] aponta para a lista de arestas incidindo em i */
 };
 
+struct pilha{
+    int topo; /* topo da pilha */
+    char elementos[7]; /* elementos da pilha */
+};
+
+
 Viz* criaViz(Viz* head, char noj, int peso) {
     /* insere vizinho no inicio da lista */
     Viz* no = (Viz*)malloc(sizeof(Viz));
@@ -84,9 +90,9 @@ void imprimeGrafo(Grafo* g) {
 
 }
 
-void dfs(Grafo*g,char v) {
+void dfs(Grafo*g,char v, Pilha pilha) {
 
-    int i = 0,visitado[7] = {0,0,0,0,0,0,0}, j = 0;
+    int i = 0, visitado[7] = { 0,0,0,0,0,0,0 }, j = 0;
 
     /*Pegar o índice da letra do parâmetro*/
     for (; i < 7; i++) {
@@ -96,41 +102,59 @@ void dfs(Grafo*g,char v) {
     }
 
     /*Pega o ponteiro para lista de adjacências*/
-    Viz* w = g->viz[i] ;
+    Viz* w = g->viz[i];
 
-    /*Ponteiro de lista auxiliar*/
-    Viz* a = w;
-
-    /*Marcamos o no como visitado e o imprimimos*/
-    visitado[i] = 1;
-    printf("%c", v);
-    
-    char c;
-
-    /*Percorremos o resto da lista*/
-
-    while (a != NULL) {
+    for (Viz* a = w; a != NULL; a = a->prox) {
         /*Guarda o char do no*/
-        c = a->noj;
+        char c = a->noj;
 
-        /*Pega o indice do char do no*/
-        for (; j < 7; j++) {
-            if (c == caracteres[j]) {
+        int ip = pilha.topo;
+
+        /* Verifica se aquele elemento já está na pilha */
+        while (ip >= 0) {
+            if (pilha.elementos[ip] == c) {
+                break;
+            }
+            ip--;
+        }
+
+        int ind = 0;
+        /*Pegar o índice da letra do parâmetro*/
+        for (; ind < 7; ind++) {
+            if (v == caracteres[ind]) {
                 break;
             }
         }
 
-        /*Se esse indice da lista ainda nao foi visitado, 
-        continuamos a busca a partir dele*/
-        
-        if (visitado[j] == 0) {
-            dfs(g, c);
+        /* Se o elemento não está na pilha, o adicionamos */
+        if (ip < 0 && visitado[ind] == 1) {
+            pilha.topo++;
+            pilha.elementos[pilha.topo] = c;
         }
 
-        /*Passamos para o proximo no*/
-        a = a->prox;
     }
-   
+
+    /* Marcamos o no como visitado e o imprimimos */
+    visitado[i] = 1;
+    printf("%c - Pilha: ", v);
+
+    for (int i = 0; i <= pilha.topo; i++) {
+        printf("%c ", pilha.elementos[i]);
+    }
+    printf("\n");
+
+    /* Enquanto a pilha não estiver vazia */
+    if (pilha.topo > 0) {
+        /* Pega o último elemento da pilha */
+        char c = pilha.elementos[pilha.topo];
+
+        /* Desempilha */
+        pilha.topo--;
+
+        /* Chama a função dfs novamente */
+        dfs(g, c, pilha);
+    }
+
 }
 
 

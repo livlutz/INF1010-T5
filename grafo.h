@@ -4,8 +4,9 @@ Luiza Marcondes Paes Leme - 2210275
 
 typedef struct grafo Grafo;
 typedef struct viz Viz;
+typedef struct pilha Pilha;
 
 Viz* criaViz(Viz* head, char noj, int peso);
 Grafo* grafoCria(int nv, int na);
 void imprimeGrafo(Grafo* g);
-void dfs(Grafo*g,char v);
+void dfs(Grafo*g,char v, Pilha pilha);
