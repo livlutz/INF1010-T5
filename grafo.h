@@ -14,3 +14,5 @@ Grafo* grafoCria(int nv, int na);
 void imprimeGrafo(Grafo* g);
 
 void dfs(Grafo* g, char v);
+
+void dijkstra(Grafo* g, char v);
