@@ -10,6 +10,10 @@ Luiza Marcondes Paes Leme - 2210275
 /*Array com cada letra no grafo*/
 char caracteres[7] = { 'A', 'B', 'C', 'D', 'E', 'F', 'H' };
 
+/*Array de vertices ja visitados nas buscas*/
+
+int visitados[7] = {0,0,0,0,0,0,0};
+
 /*Struct que reprensenta a lista de adjacências*/
 
 struct viz {
@@ -24,12 +28,17 @@ struct grafo {
     Viz** viz; /* viz[i] aponta para a lista de arestas incidindo em i */
 };
 
-struct pilha{
-    int topo; /* topo da pilha */
-    char elementos[7]; /* elementos da pilha */
-};
+/*Função auxiliar que retorna o índice de um caracter no array de caracteres*/
+int retornaIndice(char v) {
+    int i;
+    for (i = 0; i < 7; i++) {
+        if (v == caracteres[i]) {
+            return i;
+        }
+    }
+}
 
-
+/*Cria lista encadeada de vizinhos*/
 Viz* criaViz(Viz* head, char noj, int peso) {
     /* insere vizinho no inicio da lista */
     Viz* no = (Viz*)malloc(sizeof(Viz));
@@ -46,6 +55,7 @@ Viz* criaViz(Viz* head, char noj, int peso) {
     return no;
 }
 
+/*Cria um grafo */
 Grafo* grafoCria(int nv, int na) {
     int i;
     Grafo* g = (Grafo*)malloc(sizeof(Grafo));
@@ -63,7 +73,8 @@ Grafo* grafoCria(int nv, int na) {
         printf("Erro na alocacao de memoria para o vizinho\n");
         return NULL;
     }
-
+    
+    /*Inicializa a lista com NULL*/
     for (i = 0; i < nv; i++) {
         g->viz[i] = NULL;
     }
@@ -71,6 +82,7 @@ Grafo* grafoCria(int nv, int na) {
     return g;
 }
 
+/*Imprime cada vértice do grafo e sua lista de adjacências com os pesos e conteúdos de cada vizinho */
 void imprimeGrafo(Grafo* g) {
 
     if (g == NULL) {
@@ -90,69 +102,40 @@ void imprimeGrafo(Grafo* g) {
 
 }
 
-void dfs(Grafo*g,char v, Pilha pilha) {
+/*Função que faz a busca em profundidade a partir de um vértice no grafo*/
 
-    int i = 0, visitado[7] = { 0,0,0,0,0,0,0 }, j = 0;
+void dfs(Grafo* g, char v) {
 
-    /*Pegar o índice da letra do parâmetro*/
-    for (; i < 7; i++) {
-        if (v == caracteres[i]) {
-            break;
-        }
-    }
+    /*Variavel de contagem e array de caracteres visitados*/
 
-    /*Pega o ponteiro para lista de adjacências*/
-    Viz* w = g->viz[i];
+    int i = 0,j = 0;
 
-    for (Viz* a = w; a != NULL; a = a->prox) {
-        /*Guarda o char do no*/
-        char c = a->noj;
+    i = retornaIndice(v);
 
-        int ip = pilha.topo;
+    /*Ponteiros para a lista de adjacencias*/
 
-        /* Verifica se aquele elemento já está na pilha */
-        while (ip >= 0) {
-            if (pilha.elementos[ip] == c) {
-                break;
-            }
-            ip--;
-        }
+    Viz* no = g->viz[i];
 
-        int ind = 0;
-        /*Pegar o índice da letra do parâmetro*/
-        for (; ind < 7; ind++) {
-            if (v == caracteres[ind]) {
-                break;
-            }
+    /*Marcando v como visitado no array e imprimindo sua letra*/
+
+    visitados[i] = 1;
+    printf("%c", caracteres[i]);
+
+    /*Percorrendo a lista encadeada*/
+
+    while (no != NULL) {
+
+        /*Pega o indice do caracter contido no vertice no*/
+        j = retornaIndice(no->noj);
+
+        /*Se ele ainda nao foi visitado, continuamos a busca a partir dele*/
+        if (visitados[j] == 0) {
+            dfs(g, no->noj);
         }
 
-        /* Se o elemento não está na pilha, o adicionamos */
-        if (ip < 0 && visitado[ind] == 1) {
-            pilha.topo++;
-            pilha.elementos[pilha.topo] = c;
-        }
-
-    }
-
-    /* Marcamos o no como visitado e o imprimimos */
-    visitado[i] = 1;
-    printf("%c - Pilha: ", v);
-
-    for (int i = 0; i <= pilha.topo; i++) {
-        printf("%c ", pilha.elementos[i]);
-    }
-    printf("\n");
-
-    /* Enquanto a pilha não estiver vazia */
-    if (pilha.topo > 0) {
-        /* Pega o último elemento da pilha */
-        char c = pilha.elementos[pilha.topo];
-
-        /* Desempilha */
-        pilha.topo--;
-
-        /* Chama a função dfs novamente */
-        dfs(g, c, pilha);
+        /*Passamos para o proximo no da lista*/
+        no = no->prox;
+        
     }
 
 }
