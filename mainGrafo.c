@@ -84,9 +84,9 @@ int main(void) {
 
     printf("\n");
 
-    /*printf("Caminho mais curto a partir do vertice %c:\n", origem);
+    printf("Implementação do algoritmo de Dijkstra a partir do vertice %c:\n", origem);
 
-    dijkstra(g, origem);*/
+    dijkstra(g, origem);
 
     return 0;
 }

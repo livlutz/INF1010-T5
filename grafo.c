@@ -140,10 +140,24 @@ void dfs(Grafo* g, char v) {
 
 }
 
+int indMenorDistancia(int distancias[7], int visitado[7]){
+
+    int min = INT_MAX, minInd = -1;
+
+    for (int i = 0; i < 7; i++) {
+        if (visitado[i] == 0 && distancias[i] <= min) {
+            min = distancias[i];
+            minInd = i;
+        }
+    }
+
+    return minInd;
+}
+
 void dijkstra(Grafo* g, char v) {
 
-    /*Array de distancias da origem aos outros vertices*/
-    int distancias[7] ,j = 0,minInd;
+    /*Array de distancias da origem aos outros vertices e de visitados*/
+    int distancias[7], j = 0, visitado[7] = { 0,0,0,0,0,0,0 };
 
     /*Inicializando o array com distancias infinitas*/
     for (int i = 0; i < 7; i++) {
@@ -155,10 +169,34 @@ void dijkstra(Grafo* g, char v) {
     /*Distancia da origem para a origem e 0*/
     distancias[i] = 0;
 
-    Viz* no = g->viz[i];
+    for (int cont = 0; cont < 7; cont++) {
+        /*Marcando vertice como visitado*/
+        visitado[i] = 1;
 
-    /*TERMINAR DE IMPLEMENTAR*/
-    
+        /*Adiciona a distância se for menor do que a que já tiver*/
+        for (Viz* a = g->viz[i]; a != NULL; a = a->prox) {
+            j = retornaIndice(a->noj);
+            if (distancias[j] > distancias[i] + a->peso && visitado[j] == 0) {
+                distancias[j] = distancias[i] + a->peso;
+            }
+        }
+
+        /*Imprime as distancias*/
+        for (int i = 0; i < 7; i++) {
+            printf("%c: %d\n", caracteres[i], distancias[i]);
+        }
+        printf("\n");
+
+        /*Pega o indice do vertice com menor distancia*/
+        i = indMenorDistancia(distancias, visitado);
+    }
+
+    printf("Caminho mais curto a partir da origem %c:\n", v);
+    /*Imprime as distancias*/
+    for (i = 0; i < 7; i++) {
+        printf("%c: %d\n", caracteres[i], distancias[i]);
+    }
+
 }
 
 
