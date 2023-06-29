@@ -23,9 +23,6 @@ int main(void) {
     /*Cria um grafo de 7 vértices e 13 arestas */
     Grafo* g = grafoCria(7, 13);
 
-    /*Guarda o número de vértices do grafo*/
-    int numVertices = g->nv;
-
    /*Array com as letras que estarão contidas em cada vértice e char do caracter do vertice de origem */
     char letras[7] = { 'A', 'B', 'C', 'D', 'E', 'F', 'H' },origem = 'A';
 
@@ -76,7 +73,7 @@ int main(void) {
     /* Imprime o grafo em ordem alfabética */
     imprimeGrafo(g);
 
-    printf("\nImplementação do algoritmo de Dijkstra a partir do vertice %c:\n", origem);
+    printf("\nImplementacao do algoritmo de Dijkstra a partir do vertice %c:\n", origem);
 
     /*Imprime passo a passo do algoritmo e resultado*/
     dijkstra(g, origem);
