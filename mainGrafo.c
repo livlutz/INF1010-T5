@@ -72,21 +72,19 @@ int main(void) {
     g->viz[6] = criaViz(g->viz[6], letras[4], 6.0);
     g->viz[6] = criaViz(g->viz[6], letras[1], 9.0);
 
+    printf("Grafo como lista de adjacencias:\n");
     /* Imprime o grafo em ordem alfabética */
-   
     imprimeGrafo(g);
 
-   /*Faz a busca por profundidade no grafo usando percurso por profundidade*/
+    printf("\nImplementação do algoritmo de Dijkstra a partir do vertice %c:\n", origem);
 
-    printf("Busca em profundidade a partir do vertice %c:\n",origem);
+    /*Imprime passo a passo do algoritmo e resultado*/
+    dijkstra(g, origem);
+
+    /*Faz a busca por profundidade no grafo usando percurso por profundidade*/
+    printf("\nBusca em profundidade a partir do vertice %c:\n",origem);
 
     dfs(g, origem);
-
-    printf("\n");
-
-    printf("Implementação do algoritmo de Dijkstra a partir do vertice %c:\n", origem);
-
-    dijkstra(g, origem);
 
     return 0;
 }
