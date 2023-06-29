@@ -140,17 +140,21 @@ void dfs(Grafo* g, char v) {
 
 }
 
+/*Função auxiliar que retorna o índice da lista de adjacências que tem a menor distância do nó corrente*/
 int indMenorDistancia(int distancias[7], int visitado[7]){
-
+    /*OBS: Consideramos a macro INT_MAX como infinito, pois é o maior inteiro representável*/
     int min = INT_MAX, minInd = -1;
-
+    
+    /*Percorremos os arrays dos parâmetros*/
     for (int i = 0; i < 7; i++) {
+        /*Se o elemento no indice ainda não foi visitado e a distância é menor que infinito*/
         if (visitado[i] == 0 && distancias[i] <= min) {
+            /*Sua distância é agora a mínima, assim como seu índice*/
             min = distancias[i];
             minInd = i;
         }
     }
-
+    /*Retornamos o índice com a menor distância encontrada*/
     return minInd;
 }
 
